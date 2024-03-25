@@ -1,0 +1,93 @@
+
+-- database: https://www.kaggle.com/datasets/lukedip/nba-boxscore-dataset
+
+-- Analiza średnich wyników meczów oraz ich zalezność w miejscu rozgrywania spotkania
+
+SELECT
+    ROUND(AVG(home_score), 1) AS avg_home_score,
+    ROUND(AVG(away_score), 1) AS avg_away_score,
+    ROUND(AVG(home_score), 1) - ROUND(AVG(away_score), 1) AS avg_score_difference
+FROM
+    game_info;
+
+-- Najwiecej punktów przez zawodnika per druzyna w sezonie 13-14
+
+SELECT 
+    team,
+    player,
+    MAX(PTS) AS Points
+FROM 
+    player_stats
+WHERE 
+    game_id LIKE '1314%'
+GROUP BY 
+    team
+ORDER BY
+    Points DESC;
+
+-- Ilość zwycięstw per druzyna w sezonie 14-15
+
+SELECT
+    team,
+    SUM(result) AS Wins
+FROM
+    (
+    SELECT
+    home_team AS team,
+    result
+FROM
+    game_info
+WHERE
+    season = '1415'
+UNION ALL
+SELECT
+    away_team AS team,
+    CASE WHEN result = 0 THEN 1 ELSE 0 END AS result
+FROM
+    game_info AS all_games
+WHERE
+    season = '1415')
+GROUP BY
+    team;
+
+--Skuteczność zawodnikow druzyny CHI za 3 punkty w sezonie 16-17
+
+SELECT
+    player,
+    CASE 
+        WHEN ROUND(AVG("3Pp"), 2) IS NULL OR ROUND(AVG("3Pp"), 2) = 0 THEN "No data" 
+        ELSE ROUND(AVG("3Pp"), 2)
+    END AS avg_3P_percentage
+FROM
+    player_stats
+WHERE
+    team = 'CHI' AND game_id LIKE '1617%'
+GROUP BY
+    player
+ORDER BY
+    avg_3P_percentage;
+
+-- Przykładowe informacje na temat meczu nr 131410290001 z kilku tabel
+
+SELECT
+    t1.game_id, 
+    t1.date,
+    t3.team,
+    t2.player,
+    CASE
+        WHEN t2.PTS IS NULL THEN 0
+        ELSE t2.PTS
+    END AS PTS
+FROM
+    game_info AS t1
+JOIN
+    player_stats AS t2 ON t1.game_id = t2.game_id
+JOIN
+    team_stats AS t3 ON t1.game_id = t3.game_id
+WHERE
+    t1.game_id = '131410290001'
+AND
+    (t2.team = t3.team OR t2.team IS NULL)
+ORDER BY
+    t3.team,
+    PTS DESC;
