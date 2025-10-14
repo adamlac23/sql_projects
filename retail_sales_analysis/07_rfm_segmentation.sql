@@ -1,8 +1,3 @@
-/*
-Cel: segmentacja klientów wg RFM.
-Techniki: okna + NTILE(4) -> kwartyle (1=low .. 4=high).
-Tabele: Orders(OrderDate, CustomerID, Quantity, UnitPrice, Discount)
-*/
 WITH rfm AS (
     SELECT
         o.CustomerID,
@@ -18,9 +13,9 @@ scored AS (
         RecencyDays,
         Frequency,
         Monetary,
-        5 - NTILE(5) OVER (ORDER BY RecencyDays)      AS R_Score,  -- im mniejsza recency tym lepiej
-        NTILE(5) OVER (ORDER BY Frequency)            AS F_Score,
-        NTILE(5) OVER (ORDER BY Monetary)             AS M_Score
+        5 - NTILE(5) OVER (ORDER BY RecencyDays) AS R_Score,  
+        NTILE(5) OVER (ORDER BY Frequency) AS F_Score,
+        NTILE(5) OVER (ORDER BY Monetary) AS M_Score
     FROM rfm
 )
 SELECT
