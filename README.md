@@ -17,14 +17,14 @@ All queries are written in **T-SQL (SQL Server)** and focus on practical, real-w
 
 ### Files Overview
 
-- `retail_sales_analysis/01_revenue_growth.sql` – monthly revenue with MoM and YoY growth *(window functions, LAG)*  
-- `retail_sales_analysis/02_top_customers.sql` – top customers by revenue and profit margin *(ranking, RANK)*  
-- `retail_sales_analysis/03_profitability_by_category.sql` – category/subcategory profitability *(GROUP BY, CASE)*  
-- `retail_sales_analysis/04_monthly_kpi.sql` – monthly KPI summary *(Revenue, Profit, Margin)*  
-- `retail_sales_analysis/05_rolling_30d_revenue.sql` – rolling 30-day revenue using recursive CTE + window SUM()  
-- `retail_sales_analysis/06_cohort_retention.sql` – cohort analysis of customer retention (first order → repeat orders)  
+- `retail_sales_analysis/01_revenue_growth.sql` – monthly revenue with MoM and YoY growth
+- `retail_sales_analysis/02_top_customers.sql` – top customers by revenue and profit margin
+- `retail_sales_analysis/03_profitability_by_category.sql` – category/subcategory profitability 
+- `retail_sales_analysis/04_monthly_kpi.sql` – monthly KPI summary 
+- `retail_sales_analysis/05_rolling_30d_revenue.sql` – rolling 30-day revenue 
+- `retail_sales_analysis/06_cohort_retention.sql` – cohort analysis of customer retention 
 - `retail_sales_analysis/07_rfm_segmentation.sql` – RFM segmentation using `NTILE()` and window scores  
-- `retail_sales_analysis/08_topN_products_per_category.sql` – Top-N products by revenue in each category *(ROW_NUMBER)*  
+- `retail_sales_analysis/08_topN_products_per_category.sql` – Top-N products by revenue in each category
 - `retail_sales_analysis/09_basket_affinity.sql` – simple market basket analysis with support, confidence, and lift  
 - `retail_sales_analysis/10_anomaly_zscore.sql` – anomaly detection on daily revenue via rolling z-score
 
